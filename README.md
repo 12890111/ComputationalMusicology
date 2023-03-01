@@ -8,7 +8,9 @@ People say that Bossanova was pretty much born from West coast Jazz and it's bas
 
 **Description of Plots**
 
-![](https://github.com/12890111/ComputationalMusicology/blob/main/Rplot.png) The first plot shows the valence versus the energy of the 50 most streamed songs (On 13/02/2023) in the Netherlands and America. The overall dispersion of these datapoints is pretty similair and we could say that the tracks in the US and in Europe have similair energy and valence.
+![](https://github.com/12890111/ComputationalMusicology/blob/main/Rplot.png) 
+The first plot shows the valence versus the energy of the 50 most streamed songs (On 13/02/2023) in the Netherlands and America. The overall dispersion of these datapoints is pretty similair and we could say that the tracks in the US and in Europe have similair energy and valence.
 
-![](https://github.com/12890111/ComputationalMusicology/blob/main/Rplot01.png) In the second plot I have tried to visaulize to what scales europeans and Americans listen to. I chose to use a bar chart since this seemed ideal to show the dispersion of a categorical variable. Some remarkable points are the key's of B, D, E and G# where there is a noticable difference for the two different nationalities. But this could be caused by chance. For a stronger conclusion I could increase the sample size to 100 or more to eliminate the factor of randomness. 
+![](https://github.com/12890111/ComputationalMusicology/blob/main/Rplot01.png) 
+In the second plot I have tried to visaulize to what scales europeans and Americans listen to. I chose to use a bar chart since this seemed ideal to show the dispersion of a categorical variable. Some remarkable points are the key's of B, D, E and G# where there is a noticable difference for the two different nationalities. But this could be caused by chance. For a stronger conclusion I could increase the sample size to 100 or more to eliminate the factor of randomness. 
 
