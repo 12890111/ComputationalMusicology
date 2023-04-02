@@ -1,0 +1,443 @@
+---
+title: "Music corpus of Jonne Hoek Spaans"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: 
+      version: 4
+      bg: '#191414'
+      fg: "#FDF7F7"
+      navbar-bg: '#1DB954'
+      base_font: 
+        google: Prompt
+runtime: shiny
+---
+<style>
+.navbar.navbar-inverse {
+  background-color:#1DB954 !important;
+  border-color:black;
+}
+.navbar-brand {
+color:black!important;
+}
+</style>
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(compmus)
+library(ggplot2)
+library(tidyverse)
+library(spotifyr)
+library(treemapify)
+library(shiny)
+library(plotly)
+library(plyr)
+```
+
+Homepage
+=====================================
+
+My Corpus exists out of a total of 6 playlists forming 3 different groups. These 4 groups are: Uk drill, Jazz, and Scales. With the 2 playlists belonging in the Jazz group I will look at what differs between West Coast Jazz (1950s Jazz in America) and Bossa Nova (A brazilian form of Jazz). Then, two other playlists will be used to see to what musical scales Americans and Europeans listen to. Maybe we listen to very different or similair scales. Lastly, I want to look further into UK drill and than especially into Central C.
+
+Some background and reasons why I chose this Corpus People say that Bossanova was pretty much born from West coast Jazz and it's basically just a Brazilian version of it. Im curious how this is to be seen when looking into the data. I have grabbed a playlist of around 50 songs of both genres and will see how close these songs are related to each other by comparing their multiple features with one another. To hopefully create on overview on where the Brazilians have sticked with the American way and where they have chosen to bring their own flavour into the genre. With the Uk drill part of the corpus I will focus more on an artist than a genre. I will look at what makes Central C different from other Drill rappers like ArrDee or Aitch. Songs of Central C can sometimes be very emotional and sad but still pack a lot of energy, like the song Let go or One up. And he's got a lot more songs and epecially remixes that are very unique. Im curious what the spotify features will say about a track like let it go and im curious if there are anny other rappers in the UK scene that have a songs with comparible feature values. So I would want to analyze some of his iconic tracks and than compare him as an artist to other UK artist and see where there difference is the biggest. And lastly with the Scales im curious to what scales Americans and the Dutch listen most. Are we very similair in this? Or do we differ in what scale we prefer?
+
+
+Here are the playlist that are used so that you have some idea of the type of music that is analyzed:
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/5maP17PPGVWSFPE50Nf8Nz?utm_source=generator" width="30%" height="152" frameBorder="0" allow=";  fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/39VHnWxvoDe6l4IFFVjdPJ?utm_source=generator" width="30%" height="152" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7045BBR4zRkvGgp69CyppL?utm_source=generator" width="30%" height="152" frameBorder="0"  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+
+United States v.s. The Netherlands
+=====================================
+## Column {data-width="650"}
+
+### Chart A
+
+```{r}
+# thematic::thematic_rmd(font = "auto")
+
+USvsNL <- readRDS(file = 'Data/USvsNL.RDS')
+USvsNL
+# Sys.setenv(SPOTIFY_CLIENT_ID = 'bc10a0aeb17b470c8f8e96c0113af186')
+# Sys.setenv(SPOTIFY_CLIENT_SECRET ='b430deb2e5f3496aab656f91ab7a6ff9')
+# 
+# access_token <- get_spotify_access_token()
+# 
+# 
+# Top_50_US <- get_playlist_audio_features("", "5HPHhT6kRtFGjtjA5J3lqW")
+# Top_50_NL <- get_playlist_audio_features("", "0jHMZUikBLKj4Qv6ZjIo5L")
+# Top_100_USNL <- rbind(Top_50_US, Top_50_NL)
+# 
+# Top_100_USNL$key <- Top_100_USNL$key + 1
+# Top_100_USNL <- Top_100_USNL %>% rename(country = playlist_name)
+# Top_100_USNL$country[Top_100_USNL$country == 'Corpus Top 50 US'] <- c('US')
+# Top_100_USNL$country[Top_100_USNL$country == 'Corpus Top 50 NL'] <- c('NL')
+# 
+# x_range <- c('C', 'C#', "D", 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B')
+# 
+# ggplot(Top_100_USNL, aes(x = key, fill = country)) +
+#            geom_bar(position = position_dodge(width = 0.5), alpha = (0.8))+ 
+#           labs(title = "The distibution of Key's Americans and the Dutch listen to", x = 'Key', y = 'Frequency', fill = 'Nationality')+
+#    	 xlim(x_range)
+
+```
+
+## Column {data-width="350"}
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+
+Introduction{data-navmenu="Bossanova and West Coast Jazz"}
+=====================================
+
+### A short introduction 
+
+West Coast Jazz and Bossanova are two genres of Jazz that originate from around hte 1950's. West Coast Jazz was there first after gaining popularity after the war. And Bossanova followed as a South American variant of the North American West Coast Jazz. Mainly in Brazil this genre grew hard and became very big. Since one sort of originates from the other you can imagine that these two genres must have a number of things in common. But they might also share a certain number of differences. Two different cultures have shaped this music and gave their own twist to it. That is why I have chosen to look at these two genres for my corpus. I will be looking at the difference of these genres by using Chromagrams. To see if we can see anny differences in the structure of the song and to see if there are clear patterns to each genre that can tell us more about how these 2 genres might differ from or turn out to be very similar to each other. Next to that I will also see if Dynamic Time Warping shows differences in a Studio and Life performance. This has less to do with the main goal of comparing the differences between Bossanova and west Coast Jazz but is nevertheless interesting to look at in my opinion
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/3iAnMtNWFcvtoAFKuwasdC?utm_source=generator" width="250" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1XIUAUFaEPF4PWfccxzr2S?utm_source=generator" width="250" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+
+```{r, include= FALSE}
+# MasQueNada <-
+#    get_tidy_audio_analysis("0Vl9aGb0dmeiCQ2ATgNK2B") |>
+#    select(segments) |>
+#    unnest(segments) |>
+#    select(start, duration, pitches)
+# 
+# MasQueNada |>
+#      mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#      compmus_gather_chroma() |>
+#      ggplot(
+#          aes(
+#              x = start + duration / 2,
+#              width = duration,
+#              y = pitch_class,
+#              fill = value)) +
+#      geom_tile() +
+#      labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#      theme_minimal() +
+#      scale_fill_viridis_c()
+```
+
+Comparing Chromagrams{data-navmenu="Bossanova and West Coast Jazz"}
+=====================================
+
+### Bossanova
+
+```{r fig.align="center", echo = FALSE,fig.width = 14}
+# Corcovado <-
+#   get_tidy_audio_analysis("3ZhOHtPZ1JhDVFz4YaFqBn") |>
+#   select(segments) |>
+#   unnest(segments) |>
+#   select(start, duration, pitches)
+# 
+# Corcovado_Chroma <- Corcovado |>
+#   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#   compmus_gather_chroma() |> 
+#   ggplot(
+#     aes(
+#       x = start + duration / 2,
+#       width = duration,
+#       y = pitch_class,
+#       fill = value
+#     )
+#   ) +
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   theme_minimal() +
+#   scale_fill_viridis_c()
+# 
+# SoDancoSamba <-
+#   get_tidy_audio_analysis("5je0CDv1Z1hT82Nek1Fjhl") |>
+#   select(segments) |>
+#   unnest(segments) |>
+#   select(start, duration, pitches)
+# 
+# SoDancoSamba_Chroma <- SoDancoSamba |>
+#   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#   compmus_gather_chroma() |> 
+#   ggplot(
+#     aes(
+#       x = start + duration / 2,
+#       width = duration,
+#       y = pitch_class,
+#       fill = value
+#     )
+#   ) +
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   theme_minimal() +
+#   scale_fill_viridis_c()
+# 
+# FarMoreBlue <-
+#   get_tidy_audio_analysis("2djpFaL4yqTH3fvDKijsMv") |>
+#   select(segments) |>
+#   unnest(segments) |>
+#   select(start, duration, pitches)
+# 
+# FarMoreBlue_Chroma <- FarMoreBlue |>
+#   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#   compmus_gather_chroma() |> 
+#   ggplot(
+#     aes(
+#       x = start + duration / 2,
+#       width = duration,
+#       y = pitch_class,
+#       fill = value
+#     )
+#   ) +
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   theme_minimal() +
+#   scale_fill_viridis_c()
+# 
+# 
+# TooCloseForComfort <-
+#   get_tidy_audio_analysis("0ZU39CemSAamm1dtiSAchp") |>
+#   select(segments) |>
+#   unnest(segments) |>
+#   select(start, duration, pitches)
+# 
+# TooCloseForComfort_Chroma <- TooCloseForComfort |>
+#   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#   compmus_gather_chroma() |> 
+#   ggplot(
+#     aes(
+#       x = start + duration / 2,
+#       width = duration,
+#       y = pitch_class,
+#       fill = value
+#     )
+#   ) +
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   theme_minimal() +
+#   scale_fill_viridis_c()
+# 
+# WithALittleBitOfLuck <-
+#   get_tidy_audio_analysis("2sYInNWcg7ZL9cLobvs0oo") |>
+#   select(segments) |>
+#   unnest(segments) |>
+#   select(start, duration, pitches)
+# 
+# WithALittleBitOfLuck_Chroma <- WithALittleBitOfLuck |>
+#   mutate(pitches = map(pitches, compmus_normalise, "euclidean")) |>
+#   compmus_gather_chroma() |> 
+#   ggplot(
+#     aes(
+#       x = start + duration / 2,
+#       width = duration,
+#       y = pitch_class,
+#       fill = value
+#     )
+#   ) +
+#   geom_tile() +
+#   labs(x = "Time (s)", y = NULL, fill = "Magnitude") +
+#   theme_minimal() +
+#   scale_fill_viridis_c()
+
+MasQueNada_Chroma <- readRDS(file = 'Data/MasQueNada_Chordogram.RDS')
+Corcovado_Chroma <- readRDS(file = 'Data/Corcovado_Chroma.RDS')
+SoDancoSamba_Chroma <- readRDS(file = 'Data/SoDancoSamba_Chroma.RDS')
+
+MasQueNada_Chroma <- MasQueNada_Chroma + ggtitle(paste0('Mas Que Nada by Sergio  Mendes & Brasil 66, Corcovado by Antônio Carlos Jobim and Só Danço Samba by Stan Getz & Luiz Bonfá')) + theme(plot.title = element_text(size = 8, face = "plain"))
+
+subplot(MasQueNada_Chroma,Corcovado_Chroma,SoDancoSamba_Chroma)
+
+```
+
+### West Coast Jazz
+```{r}
+
+FarMoreBlue_Chroma <- readRDS(file = 'Data/FarMoreBlue_Chroma.RDS')
+TooCloseForComfort_Chroma <- readRDS(file = 'Data/TTCFC_Chroma.RDS')
+WithALittleBitOfLuck_Chroma  <- readRDS(file = 'Data/WALBOL_Chroma .RDS')
+
+FarMoreBlue_Chroma <- FarMoreBlue_Chroma + ggtitle(paste0('Chromagrams of the songs: Far More Blue by The Dave Bruback Quartet, Too Close For Comfort by the Stan Getz Quartet and With A Little Bit Of Luck by Shelly Manne And His Friends')) + theme(plot.title = element_text(size = 8, face = "plain"))
+
+subplot(FarMoreBlue_Chroma, TooCloseForComfort_Chroma, WithALittleBitOfLuck_Chroma)
+
+```
+
+### Analysis of the chromagrams
+
+Looking at the chromagrams above we can derive some differences by comparing the three examples of Bossanova with West coast Jazz. What I noticed at first was the way how the magnitudes for the different key's was divided. There seems to be a more 'noise' or in harmonic elements in the chromagrams of Bossanova. When listening to the tracks this could be explained by the different types of percussion that are generally used. West Coast Jazz seems to use a bit more subtle and simpler percussion existing mostly out of a snare, an open hat with some tom's in the background and a walking bass-line. While the Bossanova songs seem to generally use more and fuller percussive elements. Similar to West Coast Jazz Bossanova contains an open hat, a snare and toms but also uses more shakers, tamborines and has more vocals in the track. And Bossanova also seems to use more different types of instruments in their tracks. Instruments like a guitar and a flute are more often present in Bossanova than in West Coast Jazz. West Coast Jazz most often contains a Piano with a trumpet or sax played over it. With Bossanova using more of these percussive elements and more string like instruments the amount of "noise" in the chromagram can be explained. When looking at the structure of the tracks this seem to be a bit more recognizable in the Bossanova chromagrams. The first track (Mas Que Nada) seems to have a structure of (ABCBCBD) where a is an intro, b is the verse, C the chorus and D is the outro of the song.And in the second Bossanova track there is a repetitive structure to be seen with an outro aswell. The West Coast Jazz chromagrams are a bit harder to read. West Coast Jazz has a less clear build up or structure in their songs and most of the time the piano and/or wind instrument is constantly changing and less repetitive. These two genres are very close to each other but as we can see there are some small characteristics to be picked out by which you could divide them.
+
+
+Difference in live and recorded Bossanova{data-navmenu="Bossanova and West Coast Jazz"}
+=====================================
+
+## Column {data-width="650"}
+```{r}
+Corcovado_Live <-
+  get_tidy_audio_analysis("4OID5ZgFFWJzAH5jdetEAn") |>
+  select(segments) |>
+  unnest(segments) |>
+  select(start, duration, pitches)
+
+Corcovado <- readRDS(file = 'Data/Corcovado.RDS')
+
+Corcovado_DTW <- compmus_long_distance(
+  Corcovado |> mutate(pitches = map(pitches, compmus_normalise, "chebyshev")),
+  Corcovado_Live |> mutate(pitches = map(pitches, compmus_normalise, "chebyshev")),
+  feature = pitches,
+  method = "euclidean"
+) |>
+  ggplot(
+    aes(
+      x = xstart + xduration / 2,
+      width = xduration,
+      y = ystart + yduration / 2,
+      height = yduration,
+      fill = d
+    )
+  ) +
+  geom_tile() +
+  coord_equal() +
+  labs(x = "Corcovado studio version", y = "Corcovado live version") +
+  theme_minimal() +
+  scale_fill_viridis_c(guide = NULL)
+
+Corcovado_DTW
+```
+
+## Column {data-width="250"}
+
+Looking at the plot as a result of Dynamic Time Warping a life and studio version of the song 'Corcovado', we can see that there is some vaguely diagonal line to be seen. The line is visible from second 0 until around second 60 and seem to dissapear for a moment after which it returns from second 80-90. In general it seems that this life version is played at aroudn the same tempo when looking at the refernece material that we have. The line that is available is pretty straight meaning that the life version has probably been played at the same tempo. It can be hard for an algorithm to compare the life and studio version since they will sound differently. Making it harder to compare the two with each other. If the crowd will start to cheer or to clap it can throw the algorithm off and make the computed difference between the tracks will be higher. Algorithm will almost always have a harder time analyzing life tracks, for beat tracking for example it will be harder to pick out instruments on which you can link an on set or novelty function to. A bass and drums and way harder to hear in a life version than in a studio version. 
+
+
+The different rap profiles of Central C , ArrDee and Digga D{data-navmenu="Central C and other drillers"}
+=====================================
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+
+Drillset <- readRDS(file = 'Data/Drillers.RDS')
+```
+
+## Musical profiles of the 3 different artist
+```{r}
+
+Treemap_ArrDee <- readRDS(file = 'Data/Treemap_ArrDee.RDS')
+
+
+Treemap_Central_C <- readRDS(file = 'Data/Treemap_Central_C.RDS')
+
+
+Treemap_Digga_D <- readRDS(file = 'Data/Treemap_Digga_D.RDS')
+
+Treemap_ArrDee
+Treemap_Central_C 
+Treemap_Digga_D
+
+# subplot(Treemap_ArrDee, Treemap_Central_C , Treemap_Digga_D)
+
+# Avg_Drillers_Swapped <- as.data.frame(t(Avg_Drillers))
+# Avg_Drillers_Swapped$artist <- rownames(Avg_Drillers_Swapped)
+# Avg_Drillers_Swapped <- Avg_Drillers_Swapped%>% rename(types = 'artist')
+# names(Avg_Drillers_Swapped) <- Avg_Drillers_Swapped[1,]
+# Avg_Drillers_Swapped <- Avg_Drillers_Swapped[-1,]
+# 
+# Feature <- rownames(Avg_Drillers_Swapped)
+# Value <- Avg_Drillers_Swapped$ArrDee
+# 
+# BoomKaart <- data.frame(Feature, Value)
+# BoomKaart <- BoomKaart[!(BoomKaart$Value < 0 | BoomKaart$Value > 1),]
+# BoomKaart$Feature[BoomKaart$Feature == 'Avg_speechiness'] <- 'Avg_Speech'
+# BoomKaart$Value <- as.numeric(BoomKaart$Value)
+# 
+# Treemap_ArrDee <- ggplot(BoomKaart, aes(area = Value, fill = Feature, label = Feature)) + geom_treemap()+ geom_treemap_text(colour = 'White', place = 'centre')+ ggtitle('Treemap of ArrDee')
+
+```
+When looking at the profiles of each rapper we see that their color profile do not differ that much from each other. Feature like the size in dance ability and energy show that there is no significant difference between the artist.
+
+
+Valence and energy{data-navmenu="Central C and other drillers"}
+=====================================
+### Valence and energy of 3 different artists compared to each other
+```{r}
+
+# This_Is_ArrDee <- get_playlist_audio_features("", "37i9dQZF1DZ06evO4lUn2o")
+# This_Is_Digga_D <- get_playlist_audio_features("", "5xe6lc2UVJFDZ6RYOaTciq")
+# This_Is_Central_C <- get_playlist_audio_features("", "2ezSblsEEK0920wrIVXpfZ")
+# 
+# Drillers <- rbind(This_Is_Digga_D, This_Is_ArrDee, This_Is_Central_C)
+# Drillers <- Drillers %>%
+# + drop_na(playlist_id)
+# 
+# Drillers$Artist[Drillers$Artist == 'This is Digga D (2)'] <- 'Digga D'
+# Drillers$Artist[Drillers$Artist == 'This Is ArrDee'] <- 'ArrDee'
+# Drillers$Artist[Drillers$Artist == 'This is Central Cee (2)'] <- 'Central C'
+# 
+# 
+# ggplot(Drillers, (aes(x = valence, y =  energy, color = Artist)))+
+# +     geom_point(aes(alpha = track.popularity))+
+# +     scale_alpha(range = c(0.2, 1.0))+
+# +     theme_minimal()
+
+Val_Enrg_Drill_Plt <- readRDS(file = 'Data/Val_Enrg_Drill_Plt.RDS')
+
+
+# Avg_Drillers <- Drillers %>%
+# +     group_by(Artist)%>%summarise(Avg_Enrg = mean(energy), Avg_Val = mean(valence), Avg_Pop = mean(track.popularity), Avg_Danc = mean(danceability), Avg_Loud = mean(loudness), Avg_speechiness = mean(speechiness), Avg_Acous = mean(acousticness), Avg_Instr = mean(instrumentalness), Avg_Lively = mean(liveness), Avg_tempo = mean(tempo))
+# 
+# 
+# ggplot(Avg_Drillers)+
+#     geom_point(aes(x = Avg_Val, y = Avg_Enrg, color = Artist, size =     (Avg_Pop), alpha = 0.75))+
+#     xlim(0,1)+
+#     ylim(0,1)+
+#     theme_bw()+
+#     scale_size_continuous(Avg_Drillers$Avg_Pop, range = c(10, 20))+
+#     geom_point(aes(x = Avg_Val, y = Avg_Enrg, color = Artist))
+
+Avg_Drillers_Plt <- readRDS(file = 'Data/Avg_Drillers_Plot.RDS')
+
+subplot(Val_Enrg_Drill_Plt, Avg_Drillers_Plt)
+
+```
+
+### Free analysis of other features
+
+```{r}
+renderPlot({
+  # hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
+  #      xlab = "Duration (minutes)", main = "Geyser Eruption Duration")
+  # 
+  # dens <- density(faithful$eruptions, adjust = input$bw_adjust)
+  # lines(dens, col = "blue")
+  
+# ggplot(Drillset, aes(x = Drillset$(input$Feature1), y = Drillset$(input$Feature2), fill = 'Artist')) 
+ 
+ggplot(Drillset, aes(x = Drillset[[tolower(input$Feature1)]], y = Drillset[[tolower(input$Feature2)]], color = Artist)) +
+  geom_point() +
+  xlab(input$Feature1) +
+  ylab(input$Feature2) +
+  ggtitle(paste0(input$Feature1,' plotted against ',input$Feature2))
+})
+```
+
+Column {.sidebar}
+-----------------------------------------------------------------------
+```{r}
+selectInput("Feature1", label = "Feature number 1:", choices = c('Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Loudness', 'Speechiness','Tempo','Track_popularity','Valence'), selected = 'Acousticness')
+
+selectInput("Feature2", label = "Feature number 2:", choices = c('Acousticness', 'Danceability', 'Energy', 'Instrumentalness', 'Liveness', 'Loudness', 'Speechiness','Tempo','Track_popularity','Valence'), selected = 'Danceability')
+
+```
+
+
